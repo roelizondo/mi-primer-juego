@@ -1,4 +1,4 @@
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     if (perla == 0) {
         Premio.setImage(img`
             . . . . . f c c c c f . . . . . 
@@ -18,11 +18,13 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
             . c b b 3 3 b 3 3 b 3 3 b b c . 
             . . f f f f f f f f f f f f . . 
             `)
-        Puntaje += 1
+        info.changeScoreBy(1)
         perla = 0
     }
 })
-let Puntaje = 0
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    game.gameOver(false)
+})
 let perla = 0
 let Premio: Sprite = null
 let Mario = sprites.create(img`
@@ -319,6 +321,7 @@ Premio = sprites.create(img`
     . c b b 3 3 b 3 3 b 3 3 b b c . 
     . . f f f f f f f f f f f f . . 
     `, SpriteKind.Food)
+music.play(music.createSong(hex`0078000408020303001c0001dc00690000045e01000400000000000000000000056400010400030c001c002000012220002400012c07001c00020a006400f401640000040000000000000000000000000000000003060000000400012708001c000e050046006603320000040a002d000000640014000132000201000218000400080001270c001000012714001800012718001c000129`), music.PlaybackMode.UntilDone)
 forever(function () {
     Premio.setImage(img`
         . . . . . f c c c c f . . . . . 
@@ -340,7 +343,7 @@ forever(function () {
         `)
     perla += 1
     pause(2000)
-    perla.setImage(img`
+    Premio.setImage(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
